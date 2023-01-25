@@ -22,3 +22,7 @@ colnames(counts) <- cell_ids
 data_dir <- '/mnt/beegfs/sbhattacharya/scRNA_standardization/Guess_copy_etal/Patient_3'
 list.files(data_dir) # Should show barcodes.tsv.gz, features.tsv.gz, and matrix.mtx.gz
 data <- Read10X(data.dir = data_dir,gene.column = 2,  cell.column = 1,  strip.suffix = FALSE)
+seurat_object = CreateSeuratObject(counts = data$`Gene Expression`) #data[[1]],data[[2]]
+seurat_object[['RNA']] = CreateAssayObject(counts = data$`Gene Expression`)
+#seurat_object2[['Ab']] = CreateAssayObject(counts = data$`Antibody Capture`)
+#seurat_object2 = CreateSeuratObject(counts = data$`Antibody Capture`)
