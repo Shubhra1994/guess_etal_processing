@@ -17,3 +17,8 @@ cell_ids <- read_tsv("GSM6229643_Patient_3_MDS_and_Patient_3_sAML_barcodes.tsv.g
 # Make the column names as the cell IDs and the row names as the gene IDs
 rownames(counts) <- gene_ids
 colnames(counts) <- cell_ids
+
+#alternate way to read the mtx file using seurat internal; the name reading is hardcoded in 
+data_dir <- '/mnt/beegfs/sbhattacharya/scRNA_standardization/Guess_copy_etal/Patient_3'
+list.files(data_dir) # Should show barcodes.tsv.gz, features.tsv.gz, and matrix.mtx.gz
+data <- Read10X(data.dir = data_dir,gene.column = 2,  cell.column = 1,  strip.suffix = FALSE)
