@@ -84,3 +84,19 @@ keep_genes <- Matrix::rowSums(nonzero) >= 10 #take genes with more than 10 cells
 filtered_counts <- counts[keep_genes, ]
 filtered_test <- CreateSeuratObject(filtered_counts, meta.data = filtered_test@meta.data)
 
+all.genes <- rownames(test)
+test <- ScaleData(test, features = all.genes)
+test <- FindVariableFeatures(test, selection.method = "vst", nfeatures = 2000)
+
+test <- RunPCA(test, features = VariableFeatures(object = test))
+test <- FindNeighbors(test, dims = 1:10)
+test <- FindClusters(test, resolution = 0.5)
+
+test <- RunUMAP(test, dims = 1:10)
+DimPlot(test, reduction = "umap")
+
+FeaturePlot(test, features = HSC_MPP)
+
+saveRDS(test, file = data_dir)
+
+test.markers <- FindAllMarkers(test, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
